@@ -14,7 +14,7 @@
         min: 5,
         value: 50,
         change: function(n){
-            if(n % 2) return n - 1;
+            if(!(n % 2)) return n - 1;
         }
     });
     var height = yaju1919.addInputNumber(h,{
@@ -23,7 +23,7 @@
         min: 5,
         value: 50,
         change: function(n){
-            if(n % 2) return n - 1;
+            if(!(n % 2)) return n - 1;
         }
     });
     function main(){
