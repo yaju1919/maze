@@ -63,20 +63,26 @@
         function extendMaze(xy){ // 壁伸ばし本処理
             var x = xy[0],
                 y = xy[1];
-            mass[x][y] = 1;
+            mass[x][y] = -1; // 現在拡張中: -1
             var nexts = [
                 [x + 2, y],
                 [x - 2, y],
                 [x, y + 2],
                 [x, y - 2],
             ].filter(function(v){
-                return mass[v[0]][v[1]] !== 2; // 現在拡張中: 2
+                return mass[v[0]][v[1]] !== -1;
             });
             if(!nexts.length) return extendMaze(stack.pop()); // 四方がすべて現在拡張中の壁の場合
             else {
                 var next = yaju1919.randArray(nexts);
                 mass[x + (x - next[0]) / 2][y + (y - next[1]) / 2] = 1; // 奇数マス
-                if(next) return; // 壁の場合
+                if(next) { // 壁の場合
+                    return mass.forEach(function(v){
+                        v.forEach(function(v2,i){
+                            v[i] = v2 === -1 ? 1 : v2; // 拡張中を確定に
+                        });
+                    });
+                }
                 stack.push([x,y]);
                 extendMaze(next); // 通路の場合
             }
