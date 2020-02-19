@@ -83,7 +83,7 @@
     }
     var g_timeoutID = [];
     //---------------------------------------------------------------------------------------------------------
-    addBtn("壁伸ばし法で自動生成",main_extend);
+    addBtn("壁延ばし法で自動生成",main_extend);
     function main_extend(){
         while(g_timeoutID.length) clearTimeout(g_timeoutID.pop());
         var w = width(),
@@ -101,7 +101,7 @@
                 if(n) paint(x,y,'blue');
                 return n;
             }));
-            for(var x = 0; x < w; x++){ // x, yともに偶数となる座標を壁伸ばし開始座標
+            for(var x = 0; x < w; x++){ // x, yともに偶数となる座標を壁延ばし開始座標
                 if(!(x % 2) && !(y % 2)) evenNums.push([x,y]);
             }
         }
@@ -132,7 +132,7 @@
             mass[y][x] = value;
             paint(x,y, value === 1 ? 'blue' : 'orange');
         }
-        function extendMaze(xy){ // 壁伸ばし本処理
+        function extendMaze(xy){ // 壁延ばし本処理
             var x = xy[0],
                 y = xy[1];
             fillMass(x,y,-1);
