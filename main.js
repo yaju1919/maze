@@ -100,14 +100,8 @@
         }
         main2();
         function fillMass(x,y,value){
-            if(value === -1) { // 現在拡張中
-                mass[y][x] = -1;
-                paint(x,y,'pink');
-            }
-            else if(value === 1){ // 確定
-                mass[y][x] = 1;
-                paint(x,y,'blue');
-            }
+            mass[y][x] = value;
+            paint(x,y, value === 1 ? 'blue' : 'pink');
         }
         function extendMaze(xy){ // 壁伸ばし本処理
             var x = xy[0],
