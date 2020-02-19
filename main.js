@@ -36,11 +36,11 @@
         value: 10,
     });
     var speed = yaju1919.addInputNumber(ui,{
-        title: "描画速度[ミリ秒]",
+        title: "描画間隔[ミリ秒]",
         max: 1000,
         min: 0,
         int: true,
-        value: 300,
+        value: 30,
     });
     function makeCanvas(w,h){
         var px = dot();
@@ -67,8 +67,10 @@
                 yaju1919.repeat('1', w)
             ) : (
                 '1' + yaju1919.repeat('0', w - 2) + '1'
-            )).split('').map(function(c){
-                return Number(c);
+            )).split('').map(function(c,x){
+                var n = Number(c);
+                if(n) paint(x,y,'blue');
+                return n;
             }));
             for(var x = 0; x < w; x++){ // x, yともに偶数となる座標を壁伸ばし開始座標
                 if(!(x % 2) && !(y % 2)) evenNums.push([x,y]);
@@ -88,11 +90,12 @@
             }
             var idx = yaju1919.randInt(0, unused.length - 1);
             var xy = unused[idx];
+            unused.splice(idx, 1);
             if(!mass[xy[1]][xy[0]]){ // 通路の場合のみ
                 stack = [];
                 extendMaze(xy);
             }
-            unused.splice(idx, 1);
+            else main2();
         }
         main2();
         function fillMass(x,y,value){
@@ -119,14 +122,14 @@
             });
             if(!nexts.length) { // 四方がすべて現在拡張中の壁の場合
                 var prev = stack.pop();
-                return extendMaze(prev);
+                return g_timeoutID.push(setTimeout(function(){ extendMaze(prev) },speed()));
             }
             else {
                 var next = yaju1919.randArray(nexts);
                 fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), -1); // 奇数マス
                 if(mass[next[1]][next[0]]) { // 壁の場合
-                    mass.forEach(function(v){
-                        v.forEach(function(v2,i){
+                    mass.forEach(function(v,y){
+                        v.forEach(function(v2,x){
                             if(v2 === -1) fillMass(x,y,1);
                         });
                     });
