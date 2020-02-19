@@ -3,7 +3,7 @@
     var h = $("<div>").appendTo($("body").css({
         "text-align": "center"
     }));
-    $("<h1>").text("迷路自動生成（壁伸ばし法）").appendTo(h);
+    $("<h1>").text("迷路自動生成").appendTo(h);
     var ui = $("<div>").appendTo(h);
     var result_cv = $("<div>").appendTo(h);
     var result = $("<div>").appendTo(h);
