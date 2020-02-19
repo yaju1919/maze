@@ -42,18 +42,20 @@
         int: true,
         value: 30,
     });
-    yaju1919.addInputNumber(ui,{
+    yaju1919.addHideArea(ui,{
         title: "穴掘り法の開始座標",
         id2: "dig"
     });
+    ui.append("<br>");
     var startX = yaju1919.addInputNumber("#dig",{
         title: "X座標",
         min: 1,
         int: true,
         value: 1,
         change: function(n){
-            if(n > width()) n = width();
-            if(!(n % 2)) return n - 1;
+            if(n > width()) n = width() - 1;
+            if(!(n % 2)) n--;
+            return n;
         }
     });
     var startY = yaju1919.addInputNumber("#dig",{
@@ -62,8 +64,9 @@
         int: true,
         value: 1,
         change: function(n){
-            if(n > height()) n = height();
-            if(!(n % 2)) return n - 1;
+            if(n > height()) n = height() - 1;
+            if(!(n % 2)) n--;
+            return n;
         }
     });
     function makeCanvas(w,h){
@@ -181,7 +184,7 @@
                 '0' + yaju1919.repeat('1', w - 2) + '0'
             )).split('').map(function(c,x){
                 var n = Number(c);
-                if(n) paint(x,y,'blue');
+                paint(x,y,'green');
                 return n;
             }));
         }
@@ -211,27 +214,31 @@
         main2();
         function fillMass(x,y,value){
             mass[y][x] = value;
-            paint(x,y,'blue');
+            paint(x,y,'white');
         }
         function extendMaze(xy){ // 穴掘り本処理
             var x = xy[0],
                 y = xy[1];
-            fillMass(x,y,1);
-            road.push([x,y]);
+            fillMass(x,y,0);
             var nexts = [
                 [x + 2, y],
                 [x - 2, y],
                 [x, y + 2],
                 [x, y - 2],
             ].filter(function(v){
-                return mass[v[1]][v[0]] !== 1;
+                var x = v[0],
+                    y = v[1];
+                if(x < 0 || x > w - 1) return;
+                if(y < 0 || y > h - 1) return;
+                return mass[y][x] === 1;
             });
-            if(!nexts.length) { // 四方がすべて現在拡張中の壁の場合
+            if(!nexts.length) { // 四方がすべて現在拡張中の通路の場合
                 return g_timeoutID.push(setTimeout(main2,speed()));
             }
             else {
+                if(nexts.length > 1) road.push([x,y]);
                 var next = yaju1919.randArray(nexts);
-                fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), -1); // 奇数マス
+                fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), 0); // 奇数マス
                 g_timeoutID.push(setTimeout(function(){ extendMaze(next) },speed()));
             }
         }
