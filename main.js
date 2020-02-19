@@ -77,9 +77,10 @@
             }
         }
         var unused = yaju1919.shuffle(evenNums), stack;
+        result.empty();
         function main2(){
             if(!unused.length) {
-                return yaju1919.addInputText(result.empty(),{
+                return yaju1919.addInputText(result,{
                     title: "output",
                     readonly: true,
                     textarea: true,
