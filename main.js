@@ -13,7 +13,7 @@
     //---------------------------------------------------------------------------------
     var width = yaju1919.addInputNumber(ui,{
         title: "幅",
-        max: 299,
+        max: 999,
         min: 5,
         value: 49,
         save: "w",
@@ -23,7 +23,7 @@
     });
     var height = yaju1919.addInputNumber(ui,{
         title: "高さ",
-        max: 299,
+        max: 999,
         min: 5,
         value: 49,
         save: "h",
