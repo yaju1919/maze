@@ -16,6 +16,7 @@
         max: 299,
         min: 5,
         value: 49,
+        save: "w",
         change: function(n){
             if(!(n % 2)) return n - 1;
         }
@@ -25,6 +26,7 @@
         max: 299,
         min: 5,
         value: 49,
+        save: "h",
         change: function(n){
             if(!(n % 2)) return n - 1;
         }
@@ -34,13 +36,15 @@
         max: 30,
         min: 1,
         value: 10,
+        save: "px",
     });
-    var speed = yaju1919.addInputNumber(ui,{
-        title: "描画間隔[ミリ秒]",
+    var wait = yaju1919.addInputNumber(ui,{
+        title: "wait[ミリ秒]",
         max: 1000,
         min: 0,
         int: true,
         value: 30,
+        save: "wait",
     });
     yaju1919.addHideArea(ui,{
         title: "穴掘り法の開始座標",
@@ -52,6 +56,7 @@
         min: 1,
         int: true,
         value: 1,
+        save: "x",
         change: function(n){
             if(n > width()) n = width() - 1;
             if(!(n % 2)) n--;
@@ -63,6 +68,7 @@
         min: 1,
         int: true,
         value: 1,
+        save: "y",
         change: function(n){
             if(n > height()) n = height() - 1;
             if(!(n % 2)) n--;
@@ -146,7 +152,7 @@
             });
             if(!nexts.length) { // 四方がすべて現在拡張中の壁の場合
                 var prev = stack.pop();
-                return g_timeoutID.push(setTimeout(function(){ extendMaze(prev) },speed()));
+                return g_timeoutID.push(setTimeout(function(){ extendMaze(prev) },wait()));
             }
             else {
                 var next = yaju1919.randArray(nexts);
@@ -157,11 +163,11 @@
                             if(v2 === -1) fillMass(x,y,1);
                         });
                     });
-                    return g_timeoutID.push(setTimeout(main2,speed()));
+                    return g_timeoutID.push(setTimeout(main2,wait()));
                 }
                 // 通路の場合
                 stack.push([x,y]);
-                g_timeoutID.push(setTimeout(function(){ extendMaze(next) },speed()));
+                g_timeoutID.push(setTimeout(function(){ extendMaze(next) },wait()));
             }
         }
     }
@@ -233,13 +239,13 @@
                 return mass[y][x] === 1;
             });
             if(!nexts.length) { // 四方がすべて現在拡張中の通路の場合
-                return g_timeoutID.push(setTimeout(main2,speed()));
+                return g_timeoutID.push(setTimeout(main2,wait()));
             }
             else {
                 if(nexts.length > 1) road.push([x,y]);
                 var next = yaju1919.randArray(nexts);
                 fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), 0); // 奇数マス
-                g_timeoutID.push(setTimeout(function(){ extendMaze(next) },speed()));
+                g_timeoutID.push(setTimeout(function(){ extendMaze(next) },wait()));
             }
         }
     }
