@@ -88,7 +88,7 @@
         while(g_timeoutID.length) clearTimeout(g_timeoutID.pop());
         var w = width(),
             h = height(),
-            evenNums = [],
+            unused = [],
             mass = [];
         var paint = makeCanvas(w,h);
         for(var y = 0; y < h; y++){ // 迷路の外周を壁
@@ -102,10 +102,10 @@
                 return n;
             }));
             for(var x = 0; x < w; x++){ // x, yともに偶数となる座標を壁延ばし開始座標
-                if(!(x % 2) && !(y % 2)) evenNums.push([x,y]);
+                if(!(x % 2) && !(y % 2)) unused.push([x,y]);
             }
         }
-        var unused = yaju1919.shuffle(evenNums), stack;
+        var stack;
         result.empty();
         function main2(){
             if(!unused.length) { // すべての処理の終わり
