@@ -198,7 +198,7 @@
         }
         result.empty();
         function main2(){
-            if(!unroad) { // すべての処理の終わり
+            if(unroad <= 0) { // すべての処理の終わり
                 mass.forEach(function(v,i){
                     v.forEach(function(v2,i2){
                         if( i === 0 || i=== h - 1 || i2 === 0 || i2 === w - 1 ) v[i2] = 1;
