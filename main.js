@@ -184,7 +184,6 @@
         if(firstY > h) firstY = h;
         var road = [[firstX,firstY]],
             paint = makeCanvas(w,h),
-            cnt = 0,
             unpaved = ( w - 1 ) * ( h - 1 ) / 4 - 1;
         for(var y = 0; y < h; y++){ // 迷路の外周以外を壁
             mass.push(((!y || y === h - 1) ? (
