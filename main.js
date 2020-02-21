@@ -184,7 +184,8 @@
         if(firstY > h) firstY = h;
         var road = [[firstX,firstY]],
             paint = makeCanvas(w,h),
-            unroad = (w-1)*(h-1)/4;
+            cnt = 0,
+            unpaved = ( w - 1 ) * ( h - 1 ) / 4 - 1;
         for(var y = 0; y < h; y++){ // 迷路の外周以外を壁
             mass.push(((!y || y === h - 1) ? (
                 yaju1919.repeat('0', w)
@@ -198,7 +199,7 @@
         }
         result.empty();
         function main2(){
-            if(unroad <= 0) { // すべての処理の終わり
+            if(!unpaved) { // すべての処理の終わり
                 mass.forEach(function(v,i){
                     v.forEach(function(v2,i2){
                         if( i === 0 || i=== h - 1 || i2 === 0 || i2 === w - 1 ) v[i2] = 1;
@@ -216,7 +217,7 @@
             var idx = yaju1919.randInt(0, road.length - 1);
             var xy = road[idx];
             road.splice(idx, 1);
-            extendMaze(xy);
+            if(xy) extendMaze(xy);
         }
         main2();
         function fillMass(x,y,value){
@@ -227,7 +228,6 @@
             var x = xy[0],
                 y = xy[1];
             fillMass(x,y,0);
-            unroad--;
             var nexts = [
                 [x + 2, y],
                 [x - 2, y],
@@ -246,6 +246,7 @@
             else {
                 if(nexts.length > 1) road.push([x,y]);
                 var next = yaju1919.randArray(nexts);
+                unpaved--;
                 fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), 0); // 奇数マス
                 g_timeoutID.push(setTimeout(function(){ extendMaze(next) },wait()));
             }
