@@ -246,8 +246,8 @@
             else {
                 if(nexts.length > 1) road.push([x,y]);
                 var next = yaju1919.randArray(nexts);
-                unpaved--;
                 fillMass((x + (next[0] - x) / 2), (y + (next[1] - y) / 2), 0); // 奇数マス
+                unpaved--;
                 g_timeoutID.push(setTimeout(function(){ extendMaze(next) },wait()));
             }
         }
