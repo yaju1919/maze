@@ -182,7 +182,9 @@
             firstY = startY();
         if(firstX > w) firstX = w;
         if(firstY > h) firstY = h;
-        var paint = makeCanvas(w,h);
+        var road = [[firstX,firstY]],
+            paint = makeCanvas(w,h),
+            unroad = (w-1)*(h-1)/4;
         for(var y = 0; y < h; y++){ // 迷路の外周以外を壁
             mass.push(((!y || y === h - 1) ? (
                 yaju1919.repeat('0', w)
@@ -194,10 +196,9 @@
                 return n;
             }));
         }
-        var road = [[firstX,firstY]];
         result.empty();
         function main2(){
-            if(!road.length) { // すべての処理の終わり
+            if(!unroad) { // すべての処理の終わり
                 mass.forEach(function(v,i){
                     v.forEach(function(v2,i2){
                         if( i === 0 || i=== h - 1 || i2 === 0 || i2 === w - 1 ) v[i2] = 1;
@@ -215,6 +216,7 @@
             var idx = yaju1919.randInt(0, road.length - 1);
             var xy = road[idx];
             road.splice(idx, 1);
+            unroad--;
             extendMaze(xy);
         }
         main2();
