@@ -216,7 +216,6 @@
             var idx = yaju1919.randInt(0, road.length - 1);
             var xy = road[idx];
             road.splice(idx, 1);
-            unroad--;
             extendMaze(xy);
         }
         main2();
@@ -228,6 +227,7 @@
             var x = xy[0],
                 y = xy[1];
             fillMass(x,y,0);
+            unroad--;
             var nexts = [
                 [x + 2, y],
                 [x - 2, y],
