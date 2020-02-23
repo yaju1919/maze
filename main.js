@@ -259,7 +259,8 @@
     var options = $("<div>");
     yaju1919.addHideArea(ui.append("<br><br>"),{
         title: "オプション機能",
-        elm: options
+        elm: options,
+        save: "opt"
     });
     var selectTarget = yaju1919.addSelect(options,{
         title: "拡大対象",
