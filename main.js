@@ -272,8 +272,8 @@
     var expect = $("<div>").appendTo(ui);
     function showExpect(w,h){
         if(!rate) return;
-        var w2 = ( w - 1 ) / 2 * rate() + w / 2 + 1,
-            h2 = ( h - 1 ) / 2 * rate() + h / 2 + 1;
+        var w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1,
+            h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
         if(expect) expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
     }
     $("#rate").trigger("change");
@@ -295,6 +295,8 @@
             textarea: true,
             value: rslt,
         });
+        var w = rslt.split('\n')[0].length,
+            h = rslt.split('\n').length;
         var fill = makeCanvas(w,h);
         rslt.split('\n').forEach(function(line,y){
             line.split('').forEach(function(c,x){
