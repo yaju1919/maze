@@ -256,8 +256,8 @@
         }
     }
     //---------------------------------------------------------------------------------------------------------
-    var options = $("<div>").appendTo(ui);
-    yaju1919.addHideArea(ui,{
+    var options = $("<div>");
+    yaju1919.addHideArea(ui.append("<br><br>"),{
         title: "オプション機能",
         elm: options
     });
