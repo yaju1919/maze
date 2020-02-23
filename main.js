@@ -308,7 +308,7 @@
         });
     }
     $("#rate").trigger("change");
-    addBtn("迷路の通路を拡大",expansion,options);
+    addBtn("拡大",expansion,options);
     function expansion(){
         var func;
         switch(selectTarget()){
