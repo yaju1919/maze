@@ -277,16 +277,15 @@
         var rslt = amp(g_strMass,rate());
         var h = rslt.split('\n').length,
             w = rslt.split('\n')[0].length;
-        result.empty();
-        $("<div>").text("幅:"+w).appendTo(result);
-        $("<div>").text("高さ:"+h).appendTo(result);
-        yaju1919.addInputText(result,{
+        yaju1919.addInputText(result.empty(),{
             title: "output",
             readonly: true,
             textarea: true,
             value: rslt,
         });
         var fill = makeCanvas(w,h);
+        $("<div>").text("幅:"+w).appendTo(result_cv);
+        $("<div>").text("高さ:"+h).appendTo(result_cv);
         rslt.split('\n').forEach(function(line,y){
             line.split('').forEach(function(c,x){
                 if(c === '1') fill(x,y,"red");
