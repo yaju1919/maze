@@ -87,7 +87,7 @@
             ctx.fillRect(x * px, y * px, px, px);
         };
     }
-    var g_timeoutID = [];
+    var g_timeoutID = [], g_strMass;
     //---------------------------------------------------------------------------------------------------------
     addBtn("壁延ばし法で自動生成",main_extend);
     function main_extend(){
@@ -115,14 +115,14 @@
         result.empty();
         function main2(){
             if(!unused.length) { // すべての処理の終わり
+                g_strMass = mass.map(function(v){
+                    return v.join('');
+                }).join('\n');
                 return yaju1919.addInputText(result,{
                     title: "output",
-                    id: "output",
                     readonly: true,
                     textarea: true,
-                    value: mass.map(function(v){
-                        return v.join('');
-                    }).join('\n'),
+                    value: g_strMass,
                 });
             }
             var idx = yaju1919.randInt(0, unused.length - 1);
@@ -205,14 +205,14 @@
                         if( i === 0 || i=== h - 1 || i2 === 0 || i2 === w - 1 ) v[i2] = 1;
                     });
                 });
+                g_strMass = mass.map(function(v){
+                    return v.join('');
+                }).join('\n');
                 return yaju1919.addInputText(result,{
                     title: "output",
-                    id: "output",
                     readonly: true,
                     textarea: true,
-                    value: mass.map(function(v){
-                        return v.join('');
-                    }).join('\n'),
+                    value: g_strMass,
                 });
             }
             var idx = yaju1919.randInt(0, road.length - 1);
@@ -273,9 +273,8 @@
                 return y % 2 ? yaju1919.repeat(s,rate) : s;
             }).join('').slice(0,-1);
         }
-        var o = $("#output").val();
-        if(!o) return;
-        var rslt = amp(o,rate());
+        if(!g_strMass) return;
+        var rslt = amp(g_strMass,rate());
         var h = rslt.split('\n').length,
             w = rslt.split('\n')[0].length;
         result.empty();
@@ -283,7 +282,6 @@
         $("<div>").text("高さ:"+h).appendTo(result);
         yaju1919.addInputText(result,{
             title: "output",
-            id: "output",
             readonly: true,
             textarea: true,
             value: rslt,
