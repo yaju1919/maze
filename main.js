@@ -288,8 +288,6 @@
         }
         if(!g_strMass) return;
         var rslt = amp(g_strMass,rate());
-        var h = rslt.split('\n').length,
-            w = rslt.split('\n')[0].length;
         yaju1919.addInputText(result.empty(),{
             title: "output",
             readonly: true,
