@@ -50,7 +50,8 @@
     });
     yaju1919.addHideArea(ui,{
         title: "穴掘り法の開始座標",
-        id2: "dig"
+        id2: "dig",
+        save: "dig"
     });
     ui.append("<br>");
     var startX = yaju1919.addInputNumber("#dig",{
