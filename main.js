@@ -284,12 +284,12 @@
             value: rslt,
         });
         var fill = makeCanvas(w,h);
-        $("<div>").text("幅:"+w).appendTo(result_cv);
-        $("<div>").text("高さ:"+h).appendTo(result_cv);
         rslt.split('\n').forEach(function(line,y){
             line.split('').forEach(function(c,x){
                 if(c === '1') fill(x,y,"red");
             });
         });
+        $("<div>").text("幅:"+w).prependTo(result_cv);
+        $("<div>").text("高さ:"+h).prependTo(result_cv);
     }
 })();
