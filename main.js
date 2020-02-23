@@ -284,7 +284,7 @@
         save: "rate",
         change: showExpect
     });
-    var expect = $("<div>").appendTo(ui);
+    var expect = $("<div>").appendTo(options);
     function showExpect(){
         if(!expect) return;
         setTimeout(function(){
