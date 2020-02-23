@@ -18,7 +18,7 @@
         value: 49,
         save: "w",
         change: function(n){
-            setTimeout(showExpect);
+            showExpect();
             if(!(n % 2)) return n - 1;
         }
     });
@@ -29,7 +29,7 @@
         value: 49,
         save: "h",
         change: function(n){
-            setTimeout(showExpect);
+            showExpect();
             if(!(n % 2)) return n - 1;
         }
     });
@@ -266,17 +266,19 @@
         int: true,
         save: "rate",
         change: function(){
-            setTimeout(showExpect);
+            showExpect();
         }
     });
     var expect = $("<div>").appendTo(ui);
     function showExpect(){
         if(!expect) return;
-        var w = width(),
-            h = height();
-        var w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1,
-            h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
-        expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
+        setTimeout(function(){
+            var w = width(),
+                h = height();
+            var w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1,
+                h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
+            expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
+        });
     }
     $("#rate").trigger("change");
     addBtn("迷路の通路を拡大",expansion);
