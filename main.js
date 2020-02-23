@@ -263,25 +263,24 @@
         elm: options,
         save: "opt"
     });
-    var selectTarget = yaju1919.addSelect(options,{
-        title: "拡大対象",
-        list: {
-            "通路": 1,
-            "壁": 2,
-            "全体": 3,
-        },
-        save: "target",
-        change: showExpect
-    });
-    var rate = yaju1919.addInputNumber(options,{
-        title: "倍率",
-        id: "rate",
+    var rateRoad = yaju1919.addInputNumber(options,{
+        title: "通路の拡大倍率",
         placeholder: "整数倍",
         min: 1,
         max: 9,
         value: 2,
         int: true,
-        save: "rate",
+        save: "rateRoad",
+        change: showExpect
+    });
+    var rateWall = yaju1919.addInputNumber(options,{
+        title: "壁の拡大倍率",
+        placeholder: "整数倍",
+        min: 1,
+        max: 9,
+        value: 2,
+        int: true,
+        save: "rateWall",
         change: showExpect
     });
     var expect = $("<div>").appendTo(options);
@@ -289,50 +288,24 @@
         if(!expect) return;
         setTimeout(function(){
             var w = width(),
-                h = height(),
-                w2, h2;
-            switch(selectTarget()){
-                case '1':
-                    w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1;
-                    h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
-                    break;
-                case '2':
-                    w2 = (w - 1) / 2 + ((w - 1) / 2 + 1) * rate();
-                    h2 = (h - 1) / 2 + ((h - 1) / 2 + 1) * rate();
-                    break;
-                case '3':
-                    w2 = w * rate();
-                    h2 = h * rate();
-                    break;
-            }
+                h = height();
+            var w2 = (w - 1) / 2 * rateRoad() + ((w - 1) / 2 + 1) * rateWall(),
+                h2 = (h - 1) / 2 * rateRoad() + ((h - 1) / 2 + 1) * rateWall();
             expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
         });
     }
-    $("#rate").trigger("change");
+    showExpect();
     addBtn("拡大",expansion,options);
     function expansion(){
-        var func;
-        switch(selectTarget()){
-            case '1':
-                func = function(n){ return n % 2 };
-                break;
-            case '2':
-                func = function(n){ return !(n % 2) };
-                break;
-            case '3':
-                func = function(n){ return true };
-                break;
-        }
-        function amp(str,rate){ // 文字列, 倍率
-            return str.split('\n').map(function(line,y){
-                var s = line.split('').map(function(c,x){
-                    return func(x) ? yaju1919.repeat(c,rate) : c;
-                }).join('') + '\n';
-                return func(y) ? yaju1919.repeat(s,rate) : s;
-            }).join('').slice(0,-1);
-        }
+        var road = rateRoad(),
+            wall = rateWall();
         if(!g_strMass) return;
-        var rslt = amp(g_strMass,rate());
+        var rslt = g_strMass.split('\n').map(function(line,y){
+            var s = line.split('').map(function(c,x){
+                return x % 2 ? yaju1919.repeat(c,road) : yaju1919.repeat(c,wall);
+            }).join('') + '\n';
+            return y % 2 ? yaju1919.repeat(s,road) : yaju1919.repeat(s,wall);
+        }).join('').slice(0,-1);
         yaju1919.addInputText(result.empty(),{
             title: "output",
             readonly: true,
