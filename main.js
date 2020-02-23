@@ -290,15 +290,15 @@
                 h = height(),
                 w2, h2;
             switch(selectTarget()){
-                case 1:
+                case '1':
                     w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1;
                     h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
                     break;
-                case 2:
+                case '2':
                     w2 = (w - 1) / 2 + ((w - 1) / 2 + 1) * rate();
                     h2 = (h - 1) / 2 + ((h - 1) / 2 + 1) * rate();
                     break;
-                case 3:
+                case '3':
                     w2 = w * rate();
                     h2 = h * rate();
                     break;
@@ -311,13 +311,13 @@
     function expansion(){
         var func;
         switch(selectTarget()){
-            case 1:
+            case '1':
                 func = function(n){ return n % 2 };
                 break;
-            case 1:
+            case '2':
                 func = function(n){ return !(n % 2) };
                 break;
-            case 1:
+            case '3':
                 func = function(n){ return true };
                 break;
         }
