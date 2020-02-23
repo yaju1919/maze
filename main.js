@@ -18,6 +18,7 @@
         value: 49,
         save: "w",
         change: function(n){
+            if(height) showExpect(n - 1, height());
             if(!(n % 2)) return n - 1;
         }
     });
@@ -28,6 +29,7 @@
         value: 49,
         save: "h",
         change: function(n){
+            showExpect(width(), n - 1);
             if(!(n % 2)) return n - 1;
         }
     });
@@ -256,13 +258,24 @@
     //---------------------------------------------------------------------------------------------------------
     var rate = yaju1919.addInputNumber(ui,{
         title: "倍率",
+        id: "rate",
         placeholder: "整数倍",
         min: 1,
         max: 5,
         value: 2,
         int: true,
-        save: "rate"
+        save: "rate",
+        change: function(){
+            showExpect(width(),height());
+        }
     });
+    var expect = $("<div>").appendTo(ui);
+    function showExpect(w,h){;
+        var w2 = ( w - 1 ) / 2 * rate() + w / 2 + 1,
+            h2 = ( h - 1 ) / 2 * rate() + h / 2 + 1;
+        if(expect) expect.text("拡大後の幅:" + w + ", 高さ:" + h);
+    }
+    $("#rate").trigger("change");
     addBtn("迷路の通路を拡大",expansion);
     function expansion(){
         function amp(str,rate){ // 文字列, 倍率
@@ -289,7 +302,5 @@
                 if(c === '1') fill(x,y,"red");
             });
         });
-        $("<div>").text("幅:"+w).prependTo(result_cv);
-        $("<div>").text("高さ:"+h).prependTo(result_cv);
     }
 })();
