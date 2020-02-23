@@ -7,8 +7,8 @@
     var ui = $("<div>").appendTo(h);
     var result_cv = $("<div>").appendTo(h);
     var result = $("<div>").appendTo(h);
-    function addBtn(title, func){
-        return $("<button>",{text:title}).click(func).appendTo(ui);
+    function addBtn(title, func, holder){
+        return $("<button>",{text:title}).click(func).appendTo(holder||ui);
     }
     //---------------------------------------------------------------------------------
     var width = yaju1919.addInputNumber(ui,{
@@ -256,39 +256,77 @@
         }
     }
     //---------------------------------------------------------------------------------------------------------
-    var rate = yaju1919.addInputNumber(ui,{
+    var options = $("<div>").appendTo(ui);
+    yaju1919.addHideArea(ui,{
+        title: "オプション機能",
+        elm: options
+    });
+    var selectTarget = yaju1919.addSelect(options,{
+        title: "拡大対象",
+        list: {
+            "通路": 1,
+            "壁": 2,
+            "全体": 3,
+        },
+        save: "target",
+        change: showExpect
+    });
+    var rate = yaju1919.addInputNumber(options,{
         title: "倍率",
         id: "rate",
         placeholder: "整数倍",
         min: 1,
-        max: 5,
+        max: 9,
         value: 2,
         int: true,
         save: "rate",
-        change: function(){
-            showExpect();
-        }
+        change: showExpect
     });
     var expect = $("<div>").appendTo(ui);
     function showExpect(){
         if(!expect) return;
         setTimeout(function(){
             var w = width(),
-                h = height();
-            var w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1,
-                h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
+                h = height(),
+                w2, h2;
+            switch(selectTarget()){
+                case 1:
+                    w2 = (w - 1) / 2 * rate() + (w - 1) / 2 + 1;
+                    h2 = (h - 1) / 2 * rate() + (h - 1) / 2 + 1;
+                    break;
+                case 2:
+                    w2 = (w - 1) / 2 + ((w - 1) / 2 + 1) * rate();
+                    h2 = (h - 1) / 2 + ((h - 1) / 2 + 1) * rate();
+                    break;
+                case 3:
+                    w2 = w * rate();
+                    h2 = h * rate();
+                    break;
+            }
             expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
         });
     }
     $("#rate").trigger("change");
-    addBtn("迷路の通路を拡大",expansion);
+    addBtn("迷路の通路を拡大",expansion,options);
     function expansion(){
+        var func;
+        switch(selectTarget()){
+            case 1:
+                func = function(n){ return n % 2 };
+                break;
+            case 1:
+                func = function(n){ return !(n % 2) };
+                break;
+            case 1:
+                func = function(n){ return true };
+                break;
+        }
         function amp(str,rate){ // 文字列, 倍率
             return str.split('\n').map(function(line,y){
                 var s = line.split('').map(function(c,x){
-                    return x % 2 ? yaju1919.repeat(c,rate) : c;
+                    return func(x) ? yaju1919.repeat(c,rate) : c;
                 }).join('') + '\n';
-                return y % 2 ? yaju1919.repeat(s,rate) : s;
+                return func(y) ? yaju1919.repeat(s,rate) : s;
             }).join('').slice(0,-1);
         }
         if(!g_strMass) return;
