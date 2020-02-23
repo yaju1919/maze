@@ -117,6 +117,7 @@
             if(!unused.length) { // すべての処理の終わり
                 return yaju1919.addInputText(result,{
                     title: "output",
+                    id: "output",
                     readonly: true,
                     textarea: true,
                     value: mass.map(function(v){
@@ -206,6 +207,7 @@
                 });
                 return yaju1919.addInputText(result,{
                     title: "output",
+                    id: "output",
                     readonly: true,
                     textarea: true,
                     value: mass.map(function(v){
@@ -250,5 +252,47 @@
                 g_timeoutID.push(setTimeout(function(){ extendMaze(next) },wait()));
             }
         }
+    }
+    //---------------------------------------------------------------------------------------------------------
+    var rate = yaju1919.addInputNumber(ui,{
+        title: "倍率",
+        placeholder: "整数倍",
+        min: 1,
+        max: 5,
+        value: 2,
+        int: true,
+        save: "rate"
+    });
+    addBtn("迷路の通路を拡大",expansion);
+    function expansion(){
+        function amp(str,rate){ // 文字列, 倍率
+            return str.split('\n').map(function(line,y){
+                var s = line.split('').map(function(c,x){
+                    return x % 2 ? yaju1919.repeat(c,rate) : c;
+                }).join('') + '\n';
+                return y % 2 ? yaju1919.repeat(s,rate) : s;
+            }).join('').slice(0,-1);
+        }
+        var o = $("#output").val();
+        if(!o) return;
+        var rslt = amp(o,rate());
+        var h = rslt.split('\n').length,
+            w = rslt.split('\n')[0].length;
+        result.empty();
+        $("<div>").text("幅:"+w).appendTo(result);
+        $("<div>").text("高さ:"+h).appendTo(result);
+        yaju1919.addInputText(result,{
+            title: "output",
+            id: "output",
+            readonly: true,
+            textarea: true,
+            value: rslt,
+        });
+        var fill = makeCanvas(w,h);
+        rslt.split('\n').forEach(function(line,y){
+            line.split('').forEach(function(c,x){
+                if(c === '1') fill(x,y,"red");
+            });
+        });
     }
 })();
