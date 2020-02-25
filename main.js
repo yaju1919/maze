@@ -263,24 +263,40 @@
         elm: options,
         save: "opt"
     });
-    var rateRoad = yaju1919.addInputNumber(options,{
-        title: "通路の拡大倍率",
-        placeholder: "整数倍",
+    var roadWidth = yaju1919.addInputNumber(options,{
+        title: "通路の幅",
         min: 1,
         max: 9,
         value: 2,
         int: true,
-        save: "rateRoad",
+        save: "roadWidth",
         change: showExpect
     });
-    var rateWall = yaju1919.addInputNumber(options,{
-        title: "壁の拡大倍率",
-        placeholder: "整数倍",
+    var roadHeight = yaju1919.addInputNumber(options,{
+        title: "通路の高さ",
         min: 1,
         max: 9,
         value: 2,
         int: true,
-        save: "rateWall",
+        save: "roadHeight",
+        change: showExpect
+    });
+    var wallWidth = yaju1919.addInputNumber(options,{
+        title: "壁の幅",
+        min: 1,
+        max: 9,
+        value: 2,
+        int: true,
+        save: "wallWidth",
+        change: showExpect
+    });
+    var wallHeight = yaju1919.addInputNumber(options,{
+        title: "壁の高さ",
+        min: 1,
+        max: 9,
+        value: 2,
+        int: true,
+        save: "wallHeight",
         change: showExpect
     });
     var expect = $("<div>").appendTo(options);
@@ -289,22 +305,24 @@
         setTimeout(function(){
             var w = width(),
                 h = height();
-            var w2 = (w - 1) / 2 * rateRoad() + ((w - 1) / 2 + 1) * rateWall(),
-                h2 = (h - 1) / 2 * rateRoad() + ((h - 1) / 2 + 1) * rateWall();
+            var w2 = (w - 1) / 2 * roadWidth() + ((w - 1) / 2 + 1) * wallWidth(),
+                h2 = (h - 1) / 2 * roadHeight() + ((h - 1) / 2 + 1) * wallHeight();
             expect.text("拡大後の幅:" + w2 + ", 高さ:" + h2);
         });
     }
     showExpect();
     addBtn("拡大",expansion,options);
     function expansion(){
-        var road = rateRoad(),
-            wall = rateWall();
+        var road_w = roadWidth(),
+            road_h = roadHeight(),
+            wall_w = wallWidth(),
+            wall_h = wallHeight();
         if(!g_strMass) return;
         var rslt = g_strMass.split('\n').map(function(line,y){
             var s = line.split('').map(function(c,x){
-                return x % 2 ? yaju1919.repeat(c,road) : yaju1919.repeat(c,wall);
+                return x % 2 ? yaju1919.repeat(c,road_w) : yaju1919.repeat(c,wall_w);
             }).join('') + '\n';
-            return y % 2 ? yaju1919.repeat(s,road) : yaju1919.repeat(s,wall);
+            return y % 2 ? yaju1919.repeat(s,road_h) : yaju1919.repeat(s,wall_h);
         }).join('').slice(0,-1);
         yaju1919.addInputText(result.empty(),{
             title: "output",
